@@ -1,0 +1,15 @@
+service: project3-serverless
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-northeast-2
+
+functions:
+  api:
+    handler: index.hello
+    events:
+      - httpApi:
+          path: /
+          method: post

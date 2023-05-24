@@ -1,0 +1,26 @@
+service: project3-sqs
+frameworkVersion: '3'
+
+provider:
+  name: aws
+  runtime: nodejs18.x
+  region: ap-northeast-2
+
+constructs:
+  jobs:
+    type: queue
+    worker:
+      handler: index.consumer
+
+functions:
+  producer:
+    handler: index.producer
+    events:
+      - httpApi:
+          method: post
+          path: /produce
+    environment:
+      QUEUE_URL: ${construct:jobs.queueUrl}
+
+plugins:
+  - serverless-lift
